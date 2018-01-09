@@ -21,12 +21,13 @@ import java.util.Map;
 public class myadapter extends BaseAdapter {
 
     ArrayList<Map<String, Object>> mylist = new ArrayList();
-    boolean cks[] = new boolean[8];
-    Context context;
-    public myadapter(Context context,ArrayList<Map<String, Object>> mylist)
+    boolean cks[];
+    Context context;  //使用context連結主頁面
+    public myadapter(Context context,ArrayList<Map<String, Object>> mylist,boolean cks[])
     {
         this.context=context;
         this.mylist = mylist;
+        this.cks=cks;
     }
 
     @Override
@@ -45,28 +46,46 @@ public class myadapter extends BaseAdapter {
     }
 
     @Override //用getview抓的資料  每次出現在畫面都資料都要重新抓取
-    public View getView(final int position, View view, ViewGroup viewGroup) {
-        Log.d("getView", "position: " + position);
+    public View getView(final int position, View v1, ViewGroup viewGroup) {
+        viewholder viewholder;
+        if(v1==null)
+        {
+            LayoutInflater inflater = LayoutInflater.from(context);
+            v1 = inflater.inflate(R.layout.mylayout, null);
+            viewholder=new viewholder();
+            viewholder.tv = v1.findViewById(R.id.textView);
+            viewholder.tv2 = v1.findViewById(R.id.textView2);
+            viewholder.iv = v1.findViewById(R.id.imageView);
+            viewholder.cb = v1.findViewById(R.id.checkBox);
+        }
+        else
+        {
+            viewholder=(viewholder) v1.getTag();
+        }
 
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View v1 = inflater.inflate(R.layout.mylayout, null);
 
-        TextView tv = v1.findViewById(R.id.textView);
-        tv.setText(mylist.get(position).get("city").toString());
-        TextView tv2 = v1.findViewById(R.id.textView2);
-        tv2.setText(mylist.get(position).get("code").toString());
-        ImageView iv = v1.findViewById(R.id.imageView);
-        iv.setImageResource((Integer) mylist.get(position).get("img"));
+        viewholder.tv.setText(mylist.get(position).get("city").toString());
+        viewholder.tv2.setText(mylist.get(position).get("code").toString());
+        viewholder.iv.setImageResource((Integer) mylist.get(position).get("img"));
 
-        CheckBox cb = v1.findViewById(R.id.checkBox);
-        cb.setChecked(cks[position]);
-        cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        viewholder.cb.setOnCheckedChangeListener(null);
+        viewholder.cb.setChecked(cks[position]);
+        viewholder.cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 cks[position] = b;
             }
         });//創造一個ChangeListener把勾選過的位置記住
 
+        v1.setTag(viewholder);
+
         return v1;
+    }
+    static class viewholder
+    {
+        TextView tv;
+        TextView tv2;
+        ImageView iv;
+        CheckBox cb;
     }
 }

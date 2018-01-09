@@ -25,11 +25,6 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     ListView lv;
-    /*
-    String abc[]={"北","中","南","花東","金門"};
-    String code[]={"02","04","06","08","10"};
-    int img[]={R.drawable.tp,R.drawable.chu,R.drawable.tn,R.drawable.kou,R.drawable.tn,R.drawable.chu};
-    */
     boolean cks[]=new boolean[8];
     ArrayList<Map<String,Object>> mylist=new ArrayList<>();
 
@@ -81,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         mylist.add(m8);
 
         lv = (ListView) findViewById(R.id.listview);
-        myadapter adapter = new myadapter(MainActivity.this,mylist);
+        myadapter adapter = new myadapter(MainActivity.this,mylist,cks);
         lv.setAdapter(adapter);
 
 
