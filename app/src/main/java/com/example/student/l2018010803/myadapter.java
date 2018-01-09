@@ -28,7 +28,7 @@ public class myadapter extends BaseAdapter {
         this.context=context;
         this.mylist = mylist;
         this.cks=cks;
-    }
+    }//藉由子類別的建構子繼承父類別的資料
 
     @Override
     public int getCount() {
@@ -57,6 +57,7 @@ public class myadapter extends BaseAdapter {
             viewholder.tv2 = v1.findViewById(R.id.textView2);
             viewholder.iv = v1.findViewById(R.id.imageView);
             viewholder.cb = v1.findViewById(R.id.checkBox);
+            v1.setTag(viewholder);
         }
         else
         {
@@ -77,7 +78,7 @@ public class myadapter extends BaseAdapter {
             }
         });//創造一個ChangeListener把勾選過的位置記住
 
-        v1.setTag(viewholder);
+
 
         return v1;
     }
